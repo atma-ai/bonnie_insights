@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bonnie Insights transforms your Google Maps reviews into actionable insights for better business decisions.">
+    <title>Bonnie Insights - Unlock Insights from Your Google Maps Reviews</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Basic reset and common styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            padding-top: 80px; /* Add padding to account for fixed navbar */
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        .text-center {
+            text-align: center;
+        }
+
+        /* Navigation */
+        .navbar {
+            background-color: #fff;
+            padding: 15px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar ul {
+            list-style-type: none;
+            display: flex;
+            align-items: center;
+        }
+        .navbar ul li {
+            margin-left: 20px;
+        }
+        .navbar ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+        .navbar ul li:last-child {
+            margin-left: 30px;
+        }
+
+        /* Hero section */
+        .hero {
+            background-color: #f0f4f8;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.5;
+        }
+        .hero .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 1;
+        }
+        .hero-content {
+            flex: 1;
+            max-width: 500px;
+            margin-right: 40px;
+        }
+        .hero-image {
+            flex: 1;
+            max-width: 500px;
+        }
+        .hero-heading {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: #333;
+        }
+        .hero-text {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+        .btn-secondary:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* Features section */
+        .features {
+            padding: 80px 0;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .feature-card i {
+            font-size: 2rem;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        /* Pricing section */
+        .pricing {
+            background-color: #f8f9fa;
+            padding: 80px 0;
+        }
+        .pricing-card {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 40px auto 0;
+            text-align: center;
+        }
+        .pricing-card ul {
+            list-style-type: none;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .pricing-card ul li {
+            margin-bottom: 10px;
+        }
+
+        /* How it works section */
+        .how-it-works {
+            padding: 80px 0;
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        .step-card {
+            text-align: center;
+            padding: 20px;
+        }
+        .step-card i {
+            font-size: 2rem;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        /* FAQ section */
+        .faq {
+            padding: 80px 0;
+            background-color: #f8f9fa;
+        }
+        .faq-list {
+            max-width: 800px;
+            margin: 40px auto 0;
+        }
+        .faq-item {
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .faq-item:hover {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        .faq-question {
+            font-weight: 600;
+            color: #007bff;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-question::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active .faq-question::after {
+            transform: rotate(180deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 20px;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 1000px;
+            padding: 0 20px 20px;
+        }
+        .faq-answer ul {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        /* CTA section */
+        .cta {
+            background-color: #007bff;
+            color: #fff;
+            padding: 80px 0;
+            text-align: center;
+        }
+        .cta h2 {
+            margin-bottom: 20px;
+        }
+        .cta .btn {
+            background-color: #fff;
+            color: #007bff;
+            margin-top: 20px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 40px 0;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+        .footer h4 {
+            margin-bottom: 20px;
+        }
+        .footer ul {
+            list-style-type: none;
+        }
+        .footer ul li {
+            margin-bottom: 10px;
+        }
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .footer-bottom {
+            margin-top: 40px;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        /* Mobile menu styles */
+        .mobile-menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            .navbar ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #fff;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .navbar ul.show {
+                display: flex;
+            }
+            .navbar ul li {
+                margin: 10px 0;
+            }
+            .hero .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-content {
+                margin-right: 0;
+                margin-bottom: 40px;
+            }
+            .cta-buttons {
+                justify-content: center;
+            }
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #007bff;
+            color: #fff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .back-to-top.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <a href="#">
+                    <img src="images\bonnie.JPG" alt="Bonnie Insights Logo" style="height: 50px; max-width: 100%; object-fit: contain;">
+                </a>
+            </div>
+            <div class="mobile-menu-toggle" aria-label="Toggle mobile menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="https://buy.stripe.com/6oEeWs5bl4VK9H2eUU" class="btn" target="_blank">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+   
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-heading">Unlock Insights from Your Google Maps Reviews with Bonnie Insights</h1>
+                <p class="hero-text">Transform customer feedback into actionable insights that drive better experiences and smarter business decisions.</p>
+                <div class="cta-buttons">
+                    <a href="https://buy.stripe.com/6oEeWs5bl4VK9H2eUU" class="btn" target="_blank">Get Started</a>
+                    <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="text-center">What We Offer</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Monthly Review Analysis</h3>
+                    <p>Get detailed reports on customer feedback, sentiment analysis, and emerging trends.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Actionable Insights</h3>
+                    <p>Understand what's working and where you can improve to enhance customer satisfaction.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-trophy"></i>
+                    <h3>Competitive Edge</h3>
+                    <p>Benchmark your reviews against competitors and stay ahead in the market.</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-cogs"></i>
+                    <h3>Simple, No Hassle Setup</h3>
+                    <p>We handle the heavy lifting with no-code solutions that integrate seamlessly with your operations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="text-center">Simple Pricing</h2>
+            <p class="text-center">No contracts. No hidden fees. Just $15 per month, cancel anytime.</p>
+            <div class="pricing-card">
+                <h3>$15 per month</h3>
+                <ul>
+                    <li>Cancel anytime, no commitment</li>
+                    <li>Full access to all insights and reports</li>
+                </ul>
+                <a href="https://buy.stripe.com/6oEeWs5bl4VK9H2eUU" class="btn btn-primary btn-block" target="_blank">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="text-center">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <i class="fas fa-download"></i>
+                    <h3>We Collect</h3>
+                    <p>We automatically gather your reviews from Google Maps every month.</p>
+                </div>
+                <div class="step-card">
+                    <i class="fas fa-brain"></i>
+                    <h3>We Analyze</h3>
+                    <p>Using advanced AI, we break down sentiment, highlight key phrases, and identify recurring themes.</p>
+                </div>
+                <div class="step-card">
+                    <i class="fas fa-rocket"></i>
+                    <h3>You Act</h3>
+                    <p>With easy-to-read reports, you'll know exactly where to focus your efforts to improve customer satisfaction and boost your reputation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Updated FAQ Section -->
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2 class="text-center">Frequently Asked Questions</h2>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">When are the reports sent?</div>
+                    <div class="faq-answer">
+                        <ul>
+                            <p>The report is sent on the last business day of each calendar month. It includes an analysis of the reviews left on your Google Maps profile during the current month.</p>
+                        </ul>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How many Google Maps reviews do you analyze?</div>
+                    <div class="faq-answer">
+                        <p>We currently analyze the most recent 50 to 100 reviews for your report. We've found that this range strikes the perfect balance between providing actionable insights without overwhelming you with too much data.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Why are you offering this service?</div>
+                    <div class="faq-answer">
+                        <p>We believe that all businesses—whether they're just starting out or well-established—should be able to easily learn from their Google Maps reviews. Our goal is to help you make better business decisions without needing to invest in expensive tools or complicated software.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Do I need to have technical knowledge to use this service?</div>
+                    <div class="faq-answer">
+                        <p>Not at all! Our reports are easy to read and understand, designed for business owners and managers who want clear insights without any technical complexity. We handle the data analysis for you, so you can focus on making informed decisions.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How accurate are the insights provided by Bonnie Insights?</div>
+                    <div class="faq-answer">
+                        <p>Bonnie Insights uses advanced natural language processing and machine learning algorithms to analyze reviews with high accuracy. Our sentiment analysis and trend identification have been tested to achieve over 95% accuracy. However, we always encourage businesses to use our insights in conjunction with their own understanding of their customers and market.</p>
+                    </div>
+                </div>
+            
+
+                <div class="faq-item">
+                    <div class="faq-question">Can I try Bonnie Insights before committing to a subscription?</div>
+                    <div class="faq-answer">
+                        <p>Yes! We offer a month free trial for new users. This allows you to experience the full functionality of Bonnie Insights and see the value it can bring to your business. No credit card is required for the trial, and you can cancel at any time.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Turn Reviews into Results?</h2>
+            <p>For just $15 a month, you can start making smarter business decisions from your customer feedback.</p>
+            <p>Got questions or doubts? Book a call with us today to gain clarity and understand how Bonnie Insights can help elevate your business!</p>
+            <a href="https://outlook.office365.com/owa/calendar/DiscoveryCallwithBonnieInsights@atma-ai.com/bookings/" class="btn" target="_blank">Book your discovery call!</a>
+        </div>
+    </section>
+    <a href="#" class="back-to-top" aria-label="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            });
+        });
+
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const navbarMenu = document.querySelector('.navbar ul');
+    mobileMenuToggle.addEventListener('click', () => {
+        navbarMenu.classList.toggle('show');
+    });
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Back to top button
+    const backToTopButton = document.querySelector('.back-to-top');
+    
+    // Show/hide the button based on scroll position
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+        }
+    });
+
+    // Scroll to top when the button is clicked
+    backToTopButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    </script>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>Bonnie Insights by ATMA-AI.COM</h4>
+                    <p>Transform your Google Maps reviews into actionable insights.</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4>Contact Us</h4>
+                    <ul>
+                        <li><a href="mailto:info@atma-ai.com" target="_blank">sales@atma-ai.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 ATMA AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
